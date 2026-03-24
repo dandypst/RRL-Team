@@ -1,0 +1,111 @@
+# RRL-Team Agent Configuration
+agents:
+  rrl-kcic:
+    name: "RRL-KCIC"
+    description: "Laporan Harian CCM Halim"
+    emoji: "📊"
+    color: "#4CAF50"
+    process_name: "ai_collect_monitor.py"
+    log_file: "/home/dandysetiawan/.openclaw/workspace/RRL-KCIC/ai_collect_auto.log"
+    cron_jobs:
+      - "06:55 - Generate laporan pagi"
+      - "07:05 - Auto-send laporan pagi"
+      - "16:25 - Generate laporan sore"
+      - "16:35 - Auto-send laporan sore"
+    health_checks:
+      - type: "pid"
+        target: "ai_collect_monitor.py"
+      - type: "log_age"
+        max_minutes: 5
+    data_sources:
+      - "Google Sheets: Jadwal Kunjungan MR"
+      - "Google Sheets: Shift BIPO"
+
+  rrl-analyst:
+    name: "RRL-Analyst"
+    description: "Market Analysis & Sentiment"
+    emoji: "📈"
+    color: "#2196F3"
+    process_name: null
+    log_file: null
+    schedule:
+      - "07:05 - Daily market scan"
+      - "20:00 - Price alert check"
+    data_sources:
+      - "CoinGecko API"
+      - "TradingView"
+      - "Twitter API"
+
+  rrl-trading:
+    name: "RRL-Trading"
+    description: "Polymarket Trader"
+    emoji: "💰"
+    color: "#FF9800"
+    process_name: null
+    log_file: null
+    schedule:
+      - "12:00 - Midday opportunity check"
+    config:
+      modal: "$20"
+      max_loss: "5% per trade"
+      strategy: "Follow Analyst signals"
+
+  rrl-social:
+    name: "RRL-Social"
+    description: "Social Media Admin (@RRLOne)"
+    emoji: "🐦"
+    color: "#1DA1F2"
+    process_name: null
+    log_file: null
+    schedule:
+      - "18:00 - Content check"
+    platforms:
+      - "Twitter/X: @RRLOne"
+    content_type: "Edukasi Crypto & AI"
+
+  rrl-airdrop:
+    name: "RRL-Airdrop"
+    description: "Airdrop Hunter"
+    emoji: "🎁"
+    color: "#9C27B0"
+    process_name: null
+    log_file: null
+    schedule:
+      - "Every 30min - Airdrop check"
+    data_sources:
+      - "Airdrop Finder Telegram"
+    config:
+      escalation: "KYC/captcha → Jo"
+
+  rrl-arbitrage:
+    name: "RRL-Arbitrage"
+    description: "Cross-chain Arbitrage Bot"
+    emoji: "⚡"
+    color: "#00BCD4"
+    process_name: null
+    log_file: null
+    config:
+      wallet: "0x66f4...cd4d"
+      min_profit: "$3"
+      daily_loss_limit: "$10"
+      max_position: "$20"
+      rpc: "Alchemy (3 chains)"
+    status: "Pending USDC deposit"
+
+  rrl-it-support:
+    name: "RRL-IT Support"
+    description: "Infrastructure & Operations"
+    emoji: "🔧"
+    color: "#607D8B"
+    process_name: null
+    log_file: null
+    projects:
+      - "MatePad remote access (SSH)"
+    status: "Active"
+
+system:
+  gateway:
+    wa_number: "+6283199860447"
+    status_check: "openclaw gateway status"
+  notifications:
+    target: "+6283851703239"
